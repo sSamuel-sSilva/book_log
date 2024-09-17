@@ -1,18 +1,46 @@
-from django.shortcuts import render
-from django.utils import timezone
-from django.views.generic.list import ListView
-from .models import Book
+from typing import Any
+from django.db.models.query import QuerySet
+from django.http import HttpResponse
+from django.views.generic.edit import CreateView, DeleteView, UpdateView, FormView
+from django.views.generic import ListView, DetailView
+from .models import Book, BookRepository
+from .forms import BookForm
 
-
-def BooksOnTheTable(request):
-    books = Book.objects.all()
-    return render(request, 'book_list.html', {'books':books})
 
 class BookListView(ListView):
-    model = Book
-    paginate_by = 100  # if pagination is desired
+    template_name = 'book_list.html'
+    context_object_name = 'books'
 
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        context["now"] = timezone.now()
-        return context
+    def get_queryset(self):
+        books = BookRepository(Book)
+        return books.get_books()
+
+
+class BookDetailView(DetailView):
+    template_name = 'book_detail.html'
+    context_object_name = 'book'
+
+    def get_queryset(self):
+        book = BookRepository(Book)
+        return book.get_by_id(self.kwargs['pk'])
+    
+
+# class AddBookView(FormView):
+#     template_name = 'book_form.html'
+#     form_class = BookForm
+#     success_url = '/book'
+
+#     def form_valid(self, form):
+#         form.save()
+#         return super().form_valid(form)
+
+class AddBookView(CreateView):
+    form_class = BookForm
+    template_name = 'book_form.html'
+    success_url = '/book'
+
+
+    def get_queryset(self):
+        books = BookRepository(Book)
+        return books.get_books()
+ 

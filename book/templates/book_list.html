@@ -1,43 +1,5 @@
-<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" /> 
-<div class="container">
-    <div class="row">
-        <div class="col-md-offset-1 col-md-10">
-            <div class="panel">
-                <div class="panel-body table-responsive">
-                    <table class="table">
-                        <thead>
-                            <tr>
-                                <th>#</th>
-                                <th>Title</th>
-                                <th>Au</th>
-                                <th>Data Publication</th>
-                                <th>Price</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            
-                            {% for book in books %}
-
-                            <tr>
-                                <td>{{ book.pk }}</td>
-                                <td>{{ book.title }}</td>
-                                <td>{{ book.author }}</td>
-                                <td>{{ book.date_pub }}</td>
-                                <td>{{ book.price }}</td>
-                                <td>
-                                    <ul class="action-list">
-                                        <li><a href="#" data-tip="edit"><i class="fa fa-edit"></i></a></li>
-                                        <li><a href="#" data-tip="delete"><i class="fa fa-trash"></i></a></li>
-                                    </ul>
-                                </td>
-                            </tr>
-
-                            {% endfor %}
-
-                        </tbody>
-                    </table>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
+<ul>
+    {% for book in books %}
+    <li> {{ book }}</li>
+    {% endfor %}
+</ul>
