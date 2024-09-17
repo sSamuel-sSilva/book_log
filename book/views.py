@@ -43,4 +43,13 @@ class AddBookView(CreateView):
     def get_queryset(self):
         books = BookRepository(Book)
         return books.get_books()
- 
+
+
+class UpdateBookView(UpdateView):
+    form_class = BookForm
+    template_name = 'book_form.html'
+    success_url = '/book'
+
+    def get_queryset(self):
+        books = BookRepository(Book)
+        return books.get_by_id(self.kwargs['pk']) 
